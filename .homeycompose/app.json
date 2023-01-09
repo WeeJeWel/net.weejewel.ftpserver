@@ -1,0 +1,41 @@
+{
+  "id": "net.weejewel.ftpserver",
+  "version": "1.0.0",
+  "compatibility": ">=8.1.0",
+  "sdk": 3,
+  "platforms": [
+    "local"
+  ],
+  "name": {
+    "en": "HTTP & FTP Server"
+  },
+  "description": {
+    "en": "A multi-user HTTP & FTP server."
+  },
+  "category": [
+    "tools"
+  ],
+  "permissions": [],
+  "images": {
+    "small": "/assets/images/small.png",
+    "large": "/assets/images/large.png",
+    "xlarge": "/assets/images/xlarge.png"
+  },
+  "author": {
+    "name": "Athom B.V.",
+    "email": "apps@athom.nl"
+  },
+  "ports": [
+    2100,
+    2101,
+    2102,
+    2103,
+    2104,
+    2105,
+    2106,
+    2107,
+    2108,
+    2109,
+    8000
+  ]
+}
