@@ -8,7 +8,7 @@
   ],
   "brandColor": "#3364BB",
   "name": {
-    "en": "HTTP & FTP Server"
+    "en": "HTTP/FTP Server"
   },
   "description": {
     "en": "A multi-user HTTP & FTP server."
@@ -38,5 +38,11 @@
     2108,
     2109,
     8000
-  ]
+  ],
+  "api": {
+    "getStatus": {
+      "method": "GET",
+      "path": "/status"
+    }
+  }
 }
