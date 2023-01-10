@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+
+<head>
+  <script
+    type="text/javascript"
+    src="/homey.js"
+    data-origin="settings"
+  ></script>
+
+  <script
+    type="text/javascript"
+    src="./js/jquery.js"
+  ></script>
+
+  <style type="text/css">
+    body {
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+    }
+
+    [data-view-id] {
+      flex-grow: 1;
+      display: none;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .users {
+      flex-grow: 1;
+    }
+
+    .user {
+      margin-bottom: 1em;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      --homey-button-box-shadow: var(--homey-box-shadow-light);
+    }
+
+    .user:not(:last-child) {
+      padding-bottom: 1em;
+      border-bottom: 1px solid #eee;
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      background: url(./img/avatar.svg) no-repeat center center;
+      background-size: contain;
+      border-radius: 100%;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+
+    .user-info {
+      flex-grow: 1;
+    }
+
+    .user-name {
+      font-size: 16px;
+    }
+
+    .user-root {
+      font-size: 12px;
+      font-family: monospace;
+      color: #aaa;
+    }
+
+    .user-edit {
+      flex-shrink: 0;
+      background: url(./img/edit.svg) no-repeat center center;
+      background-size: 16px auto;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+    }
+
+    .user-edit:hover {
+      opacity: 0.9;
+    }
+
+    .homey-title .back {
+      height: 30px;
+      vertical-align: middle;
+      cursor: pointer;
+      transition: all 0.1s;
+    }
+
+    .homey-title .back:hover {
+      opacity: 0.8;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div data-view-id="list-users">
+    <header class="homey-header">
+      <h1 class="homey-title">Users</h1>
+      <p class="homey-subtitle">Users can upload files using FTP.</p>
+    </header>
+
+    <div class="users"> </div>
+
+    <button
+      data-button-id="new-user"
+      class="homey-button-primary-shadow homey-button-primary-full"
+    >
+      <img
+        src="./img/new.svg"
+        height="14"
+      />
+      <span>New User</span>
+    </button>
+  </div>
+
+  <div data-view-id="new-user">
+    <header class="homey-header">
+      <h1 class="homey-title">
+        <img
+          class="back"
+          src="./img/back.svg"
+        />
+        <span>New User</span>
+      </h1>
+    </header>
+
+    <fieldset
+      class="homey-form-fieldset"
+      style="padding-top: 0; margin-top: 0;"
+    >
+      <div class="homey-form-group">
+        <label
+          class="homey-form-label"
+          style="margin-top: 0;"
+        >Username</label>
+        <input
+          class="homey-form-input"
+          type="text"
+          name="username"
+          value=""
+          placeholder="JohnDoe"
+        />
+      </div>
+
+      <div class="homey-form-group">
+        <label class="homey-form-label">Password</label>
+        <input
+          class="homey-form-input"
+          type="password"
+          name="password"
+          value=""
+          placeholder="12345678"
+        />
+      </div>
+
+      <div class="homey-form-group">
+        <label class="homey-form-label">Root Directory</label>
+        <input
+          class="homey-form-input"
+          type="text"
+          name="root"
+          value="/"
+          placeholder="/"
+        />
+      </div>
+    </fieldset>
+
+    <div style="flex-grow: 1;"></div>
+
+    <button
+      data-button-id="new-user-save"
+      class="homey-button-primary-full is-disabled"
+    >Add User</button>
+  </div>
+
+  <div data-view-id="edit-user">
+    <header class="homey-header">
+      <h1 class="homey-title">
+        <img
+          class="back"
+          src="./img/back.svg"
+        />
+        <span>Edit User</span>
+      </h1>
+    </header>
+
+    <fieldset
+      class="homey-form-fieldset"
+      style="padding-top: 0; margin-top: 0;"
+    >
+      <div class="homey-form-group">
+        <label
+          class="homey-form-label"
+          style="margin-top: 0;"
+        >Username</label>
+        <input
+          class="homey-form-input"
+          type="text"
+          name="username"
+          value=""
+          placeholder="JohnDoe"
+        />
+      </div>
+
+      <div class="homey-form-group">
+        <label class="homey-form-label">Password</label>
+        <input
+          class="homey-form-input"
+          type="password"
+          name="password"
+          value=""
+          placeholder="12345678"
+        />
+      </div>
+
+      <div class="homey-form-group">
+        <label class="homey-form-label">Root Directory</label>
+        <input
+          class="homey-form-input"
+          type="text"
+          name="root"
+          value="/"
+          placeholder="/"
+        />
+      </div>
+    </fieldset>
+
+    <div style="flex-grow: 1;"></div>
+
+    <button
+      data-button-id="edit-user-save"
+      class="homey-button-primary-full"
+    >Save User</button>
+
+    <button
+      data-button-id="edit-user-delete"
+      class="homey-button-danger-full"
+    >Delete User</button>
+  </div>
+
+  <script type="text/javascript">
+    function onHomeyReady(Homey) {
+
+      function setView(viewId) {
+        $('[data-view-id]').css('display', 'none')
+        $(`[data-view-id="${viewId}"]`).css('display', 'flex');
+      }
+
+      function renderUsers(callback) {
+        Homey.get('users', (err, users) => {
+          if (err) return callback(err);
+
+          const $users = $('.users');
+          $users.html('');
+          for (const [userId, user] of Object.entries(users)) {
+            const $user = $(`
+              <div class="user" data-user-id="${userId}">
+                <div class="user-avatar"></div>
+                <div class="user-info">
+                  <div class="user-name">${user.username}</div>
+                  <div
+                    class="user-root"
+                    title="Root Directory"
+                  >${user.root}</div>
+                </div>
+                <div
+                  class="user-edit"
+                  title="Edit"
+                ></div>
+              </div>
+            `);
+            $user.appendTo($users);
+            $user.find('.user-edit').click(function () {
+              setView('edit-user');
+
+              $('[data-view-id="edit-user"]').data('user-id', userId);
+              $('[data-view-id="edit-user"] input[name="username"]').val(user.username);
+              $('[data-view-id="edit-user"] input[name="password"]').val(user.password);
+              $('[data-view-id="edit-user"] input[name="root"]').val(user.root);
+            });
+          }
+
+          callback();
+        });
+      }
+
+      // List Users -> New User
+      $('[data-view-id="list-users"] [data-button-id="new-user"]').click(function () {
+        setView('new-user');
+        $('[data-view-id="new-user"] input[name="username"]').focus();
+      });
+
+      // New User -> Back
+      $('[data-view-id="new-user"] .back').click(function () {
+        setView('list-users');
+      });
+
+      // New User -> Input Validation
+      $(`
+        [data-view-id="new-user"] input[name="username"],
+        [data-view-id="new-user"] input[name="password"],
+        [data-view-id="new-user"] input[name="root"]
+      `).bind('change keyup', function () {
+        const username = $('[data-view-id="new-user"] input[name="username"]').val();
+        const password = $('[data-view-id="new-user"] input[name="password"]').val();
+        const root = $('[data-view-id="new-user"] input[name="root"]').val();
+
+        const filled = !!(username && password && root);
+        $('[data-view-id="new-user"] [data-button-id="new-user-save"]').toggleClass('is-disabled', !filled);
+      });
+
+      // New User -> Save User
+      $('[data-view-id="new-user"] [data-button-id="new-user-save"]').click(function () {
+        if ($(this).hasClass('is-disabled')) return;
+        if ($(this).hasClass('is-loading')) return;
+
+        const username = $('[data-view-id="new-user"] input[name="username"]').val();
+        const password = $('[data-view-id="new-user"] input[name="password"]').val();
+        const root = $('[data-view-id="new-user"] input[name="root"]').val();
+
+        $(this).addClass('is-loading');
+        Homey.get('users', (err, users) => {
+          if (err) {
+            $(this).removeClass('is-loading');
+            return Homey.alert(err);
+          }
+
+          const userId = (new Date()).getTime().toString(36);
+          users[userId] = { username, password, root };
+          Homey.set('users', users, err => {
+            if (err) {
+              $(this).removeClass('is-loading');
+              return Homey.alert(err);
+            }
+
+            renderUsers((err, result) => {
+              if (err) {
+                $(this).removeClass('is-loading');
+                return Homey.alert(err);
+              }
+
+              $(this).removeClass('is-loading');
+              setView('list-users');
+            });
+          });
+        });
+      });
+
+      // Edit User -> Back
+      $('[data-view-id="edit-user"] .back').click(function () {
+        setView('list-users');
+      });
+
+      // Edit User -> Input Validation
+      $(`
+        [data-view-id="edit-user"] input[name="username"],
+        [data-view-id="edit-user"] input[name="password"],
+        [data-view-id="edit-user"] input[name="root"]
+      `).bind('change keyup', function () {
+        const username = $('[data-view-id="edit-user"] input[name="username"]').val();
+        const password = $('[data-view-id="edit-user"] input[name="password"]').val();
+        const root = $('[data-view-id="edit-user"] input[name="root"]').val();
+
+        const filled = !!(username && password && root);
+        $('[data-view-id="edit-user"] [data-button-id="edit-user-save"]').toggleClass('is-disabled', !filled);
+      });
+
+      // Edit User -> Save User
+      $('[data-view-id="edit-user"] [data-button-id="edit-user-save"]').click(function () {
+        if ($(this).hasClass('is-disabled')) return;
+        if ($(this).hasClass('is-loading')) return;
+
+        const userId = $('[data-view-id="edit-user"]').data('user-id');
+        const username = $('[data-view-id="edit-user"] input[name="username"]').val();
+        const password = $('[data-view-id="edit-user"] input[name="password"]').val();
+        const root = $('[data-view-id="edit-user"] input[name="root"]').val();
+
+        $(this).addClass('is-loading');
+        Homey.get('users', (err, users) => {
+          if (err) {
+            $(this).removeClass('is-loading');
+            return Homey.alert(err);
+          }
+
+          users[userId] = { username, password, root };
+          Homey.set('users', users, err => {
+            if (err) {
+              $(this).removeClass('is-loading');
+              return Homey.alert(err);
+            }
+
+            renderUsers((err, result) => {
+              if (err) {
+                $(this).removeClass('is-loading');
+                return Homey.alert(err);
+              }
+
+              $(this).removeClass('is-loading');
+              setView('list-users');
+            });
+          });
+        });
+      });
+
+      // Edit User -> Delete User
+      $('[data-view-id="edit-user"] [data-button-id="edit-user-delete"]').click(function () {
+        const userId = $('[data-view-id="edit-user"]').data('user-id');
+        const username = $('[data-view-id="edit-user"] input[name="username"]').val();
+
+        Homey.confirm(`Are you sure you want to delete ${username}?`, null, (err, result) => {
+          if (err) return Homey.alert(err);
+          if (result !== true) return;
+
+          $(this).addClass('is-loading');
+          Homey.get('users', (err, users) => {
+            if (err) {
+              $(this).removeClass('is-loading');
+              return Homey.alert(err);
+            }
+
+            delete users[userId];
+
+            Homey.set('users', users, err => {
+              if (err) {
+                $(this).removeClass('is-loading');
+                return Homey.alert(err);
+              }
+
+              renderUsers((err, result) => {
+                if (err) {
+                  $(this).removeClass('is-loading');
+                  return Homey.alert(err);
+                }
+
+                $(this).removeClass('is-loading');
+                setView('list-users');
+              });
+            });
+          });
+
+        });
+      });
+
+      renderUsers((err, result) => {
+        if (err) return Homey.alert(err);
+        setView('list-users');
+        Homey.ready();
+      });
+    }
+  </script>
+</body>
+
+</html>
