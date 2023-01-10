@@ -6,6 +6,7 @@
   "platforms": [
     "local"
   ],
+  "brandColor": "#3364BB",
   "name": {
     "en": "HTTP & FTP Server"
   },

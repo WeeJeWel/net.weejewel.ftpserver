@@ -342,14 +342,14 @@
               return Homey.alert(err);
             }
 
-            renderUsers((err, result) => {
+            renderUsers(err => {
               if (err) {
                 $(this).removeClass('is-loading');
                 return Homey.alert(err);
               }
 
               $(this).removeClass('is-loading');
-              setView('list-users');
+              return setView('list-users');
             });
           });
         });
@@ -398,7 +398,7 @@
               return Homey.alert(err);
             }
 
-            renderUsers((err, result) => {
+            renderUsers(err => {
               if (err) {
                 $(this).removeClass('is-loading');
                 return Homey.alert(err);
