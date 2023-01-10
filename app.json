@@ -45,5 +45,7 @@
       "method": "GET",
       "path": "/status"
     }
-  }
+  },
+  "support": "mailto:emile@emilenijssen.nl",
+  "source": "https://github.com/WeeJeWel/net.weejewel.ftpserver/"
 }
