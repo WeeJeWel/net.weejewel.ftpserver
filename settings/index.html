@@ -30,7 +30,12 @@
       flex-grow: 1;
     }
 
-    .user {
+    .users[data-count="0"] {
+      background: url(./img/empty.svg) no-repeat center bottom 1em;
+      background-size: 80% auto;
+    }
+
+    .users .user {
       margin-bottom: 1em;
       display: flex;
       flex-direction: row;
@@ -38,12 +43,12 @@
       --homey-button-box-shadow: var(--homey-box-shadow-light);
     }
 
-    .user:not(:last-child) {
+    .users .user:not(:last-child) {
       padding-bottom: 1em;
       border-bottom: 1px solid #eee;
     }
 
-    .user-avatar {
+    .users .user-avatar {
       width: 40px;
       height: 40px;
       background: url(./img/avatar.svg) no-repeat center center;
@@ -53,21 +58,21 @@
       flex-shrink: 0;
     }
 
-    .user-info {
+    .users .user-info {
       flex-grow: 1;
     }
 
-    .user-name {
+    .users .user-name {
       font-size: 16px;
     }
 
-    .user-root {
+    .users .user-root {
       font-size: 12px;
       font-family: monospace;
       color: #aaa;
     }
 
-    .user-edit {
+    .users .user-edit {
       flex-shrink: 0;
       background: url(./img/edit.svg) no-repeat center center;
       background-size: 16px auto;
@@ -76,7 +81,7 @@
       cursor: pointer;
     }
 
-    .user-edit:hover {
+    .users .user-edit:hover {
       opacity: 0.9;
     }
 
@@ -97,8 +102,7 @@
 
   <div data-view-id="list-users">
     <header class="homey-header">
-      <h1 class="homey-title">Users</h1>
-      <p class="homey-subtitle">Users can upload files using FTP.</p>
+      <h1 class="homey-title">FTP Users</h1>
     </header>
 
     <div class="users"> </div>
@@ -151,7 +155,7 @@
           type="password"
           name="password"
           value=""
-          placeholder="12345678"
+          placeholder="●●●●●●●●"
         />
       </div>
 
@@ -211,7 +215,7 @@
           type="password"
           name="password"
           value=""
-          placeholder="12345678"
+          placeholder="●●●●●●●●"
         />
       </div>
 
@@ -253,7 +257,10 @@
           if (err) return callback(err);
 
           const $users = $('.users');
-          $users.html('');
+          $users
+            .html('')
+            .attr('data-count', Object.keys(users).length);
+
           for (const [userId, user] of Object.entries(users)) {
             const $user = $(`
               <div class="user" data-user-id="${userId}">

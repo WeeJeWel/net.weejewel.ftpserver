@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="140px" height="100px" viewBox="0 0 140 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Artboard</title>
+    <g id="Artboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <text id="Start-by-adding-your" font-family="BradleyHandITCTT-Bold, Bradley Hand" font-size="14" font-style="expanded" font-weight="bold" fill="#000000">
+            <tspan x="0" y="12">Start by adding your </tspan>
+            <tspan x="0" y="30">first user!</tspan>
+        </text>
+        <path id="Line" d="M66.1175687,41.6485846 L66.6061672,41.7547518 C80.778938,44.834342 87.9324395,52.6112533 87.9324395,65 C87.9324395,70.5713864 85.7749697,77.519645 81.4636851,85.8726711 L78.503,91.181 L84.7029558,87.381929 L85.1292637,87.1206598 L85.651802,87.9732757 L85.2254941,88.2345448 L77.3995213,93.0308089 L76.6416405,93.4952874 L76.6382557,92.6064049 L76.6033038,83.4276916 L76.6013999,82.9276952 L77.6013926,82.9238873 L77.6032966,83.4238837 L77.631,90.692 L80.5826514,85.3998905 C84.8195943,77.1903467 86.9324395,70.3858043 86.9324395,65 C86.9324395,53.1110714 80.1309813,45.716883 66.3938328,42.7319489 L65.9052343,42.6257817 L66.1175687,41.6485846 Z" fill="#000000" fill-rule="nonzero"></path>
+    </g>
+</svg>
