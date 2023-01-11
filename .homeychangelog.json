@@ -4,5 +4,8 @@
   },
   "1.0.1": {
     "en": "Allow IP to be selected."
+  },
+  "1.0.2": {
+    "en": "Fixed an issue with the directory contents."
   }
 }
