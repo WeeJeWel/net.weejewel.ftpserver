@@ -10,5 +10,8 @@
   },
   "1.0.3": {
     "en": "Fixed an issue with a missing font in the settings view."
+  },
+  "1.1.0": {
+    "en": "Added a HTML widget for Homey Dashboards."
   }
 }
