@@ -1,0 +1,41 @@
+{
+  "name": {
+    "en": "HTML File"
+  },
+  "settings": [
+    {
+      "id": "file",
+      "type": "autocomplete",
+      "hint": {
+        "en": "Select the .html file to display. Upload it first with FTP."
+      },
+      "title": {
+        "en": "HTML File"
+      }
+    },
+    {
+      "id": "height",
+      "type": "text",
+      "title": {
+        "en": "Height"
+      },
+      "hint": {
+        "en": "Height of the widget in pixels (e.g. `150`) or percentage (e.g. `100%`)."
+      },
+      "placeholder": {
+        "en": "100%"
+      },
+      "value": "100%"
+    }
+  ],
+  "api": {
+    "getFile": {
+      "method": "GET",
+      "path": "/file"
+    },
+    "getStatus": {
+      "method": "GET",
+      "path": "/status"
+    }
+  }
+}

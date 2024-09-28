@@ -1,0 +1,31 @@
+<script type="text/javascript">
+  function onHomeyReady(Homey) {
+    Promise.resolve().then(async () => {
+      const {
+        file,
+        height,
+      } = Homey.getSettings();
+
+      if (!file) {
+        throw new Error(`Please select a HTML file in the widget's settings first.`);
+      }
+
+      const { localIp, portHttp } = await Homey.api('GET', '/status');
+      const fileUrl = `http://${localIp}:${portHttp}${file.path}`;
+      const baseUrl = fileUrl.split('/').slice(0, -1).join('/') + '/';
+      const fileData = await Homey.api('GET', `/file?path=${encodeURIComponent(file.path)}`);
+
+      document.write(`<base href="${baseUrl}">`);
+      document.write(fileData);
+
+      if (height.endsWith('%')) {
+        Homey.ready({ height });
+      } else {
+        Homey.ready({ height: parseInt(height, 10) });
+      }
+    }).catch(err => {
+      console.error(err);
+      document.write(`<p style="padding: 8px; word-break: break-all; font-family: Roboto, sans-serif; font-weight: 400; font-size: 12px; text-align: left; color: red;">${err.message}</p>`);
+    });
+  }
+</script>
