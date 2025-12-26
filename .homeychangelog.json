@@ -13,5 +13,8 @@
   },
   "1.1.0": {
     "en": "Added a HTML widget for Homey Dashboards."
+  },
+  "1.1.1": {
+    "en": "Show a welcome message on the timeline."
   }
 }
